@@ -6,7 +6,7 @@ const fileUpload = require("express-fileupload");
 const MongoClient = require("mongodb").MongoClient;
 require("dotenv").config();
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.swu9d.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.ugsfy.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 const app = express();
 
@@ -61,6 +61,7 @@ client.connect((err) => {
     const file = req.files.file;
     const name = req.body.name;
     const email = req.body.email;
+    const phone = req.body.phone;
     // console.log(file, name, email);
     const newImg = file.data;
     const encImg = newImg.toString("base64");
@@ -71,7 +72,7 @@ client.connect((err) => {
       img: Buffer.from(encImg, "base64"),
     };
 
-    doctorCollection.insertOne({ name, email, image }).then((result) => {
+    doctorCollection.insertOne({ name, email, phone, image }).then((result) => {
       res.send(result.insertedCount > 0);
     });
   });
